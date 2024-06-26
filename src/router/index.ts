@@ -59,6 +59,24 @@ const router = createRouter({
           component: () => import('@/views/User/UserUpdateView.vue'),
           props: true,
         },
+        {
+          path: 'setting',
+          component: () => import('@/views/SettingView.vue'),
+          children: [
+            {
+              path: 'account',
+              component: () => import('@/views/setting/AccountView.vue'),
+            },
+            {
+              path: 'server',
+              component: () => import('@/views/setting/ServerView.vue'),
+            },
+            {
+              path: 'smtp',
+              component: () => import('@/views/setting/SMTPView.vue'),
+            },
+          ],
+        },
       ],
     },
   ],

@@ -82,7 +82,3 @@
     font-size: 18px;
   }
 }
-
-.router-link-active {
-  @apply text-foreground;
-}

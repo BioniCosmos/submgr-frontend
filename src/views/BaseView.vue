@@ -30,18 +30,21 @@ import { CircleUser, Menu } from 'lucide-vue-next'
         <RouterLink
           to="/"
           class="text-foreground transition-colors hover:text-foreground"
+          active-class="!text-foreground"
         >
           Dashboard
         </RouterLink>
         <RouterLink
           to="/nodes"
           class="text-muted-foreground transition-colors hover:text-foreground"
+          active-class="!text-foreground"
         >
           Nodes
         </RouterLink>
         <RouterLink
           to="/users"
           class="text-muted-foreground transition-colors hover:text-foreground"
+          active-class="!text-foreground"
         >
           Users
         </RouterLink>
@@ -87,14 +90,18 @@ import { CircleUser, Menu } from 'lucide-vue-next'
         <DropdownMenuContent align="end">
           <DropdownMenuLabel>My Account</DropdownMenuLabel>
           <DropdownMenuSeparator />
-          <DropdownMenuItem>Settings</DropdownMenuItem>
+          <DropdownMenuItem as-child>
+            <RouterLink to="/setting/account">Settings</RouterLink>
+          </DropdownMenuItem>
           <DropdownMenuItem>Support</DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuItem>Logout</DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
     </header>
-    <main class="p-4 md:p-8">
+    <main
+      class="p-4 md:p-10 bg-muted/40 min-h-[calc(100vh_-_theme(spacing.16))]"
+    >
       <RouterView />
     </main>
   </div>
