@@ -12,10 +12,10 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from '@/components/ui/drawer'
+import ky from '@/ky'
 import type { Node } from '@/type/node'
 import { toTypedSchema } from '@vee-validate/zod'
 import { useMediaQuery } from '@vueuse/core'
-import ky from 'ky'
 import { Menu } from 'lucide-vue-next'
 import { VisuallyHidden } from 'radix-vue'
 import { useForm } from 'vee-validate'
@@ -51,17 +51,17 @@ const schema = z.object({
 const form = useForm({ validationSchema: toTypedSchema(schema) })
 onMounted(() => {
   if (isUpdate.value) {
-    ky(`/api/node/${id.value}`).json<Node>().then(form.setValues)
+    ky(`api/node/${id.value}`).json<Node>().then(form.setValues)
   }
 })
 const submit = () =>
-  ky[isUpdate.value ? 'put' : 'post']('/api/node', { json: form.values }).then(
+  ky[isUpdate.value ? 'put' : 'post']('api/node', { json: form.values }).then(
     () => router.push('/nodes'),
   )
 
 const deleteNode = () =>
   ky
-    .delete(`/api/node/${id.value}`)
+    .delete(`api/node/${id.value}`)
     .then(closeDialog)
     .then(() => router.push('/nodes'))
 </script>

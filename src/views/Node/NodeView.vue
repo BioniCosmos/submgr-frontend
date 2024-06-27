@@ -23,16 +23,16 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
+import ky from '@/ky'
 import type { Node } from '@/type/node'
 import type { Pagination } from '@/type/pagination'
-import ky from 'ky'
 import { ChevronsUpDown } from 'lucide-vue-next'
 import useSWRV from 'swrv'
 import { ref } from 'vue'
 
 const page = ref(1)
 const { data: pagination, mutate } = useSWRV<Pagination<Node>>(
-  () => `/api/nodes?page=${page.value}`,
+  () => `api/nodes?page=${page.value}`,
   (url) => ky(url).json(),
 )
 const open = ref(false)
@@ -45,7 +45,7 @@ function openDialog(name: string) {
 
 const deleteProfile = () =>
   ky
-    .delete(`/api/profile/${profileName.value}`)
+    .delete(`api/profile/${profileName.value}`)
     .then(() => mutate())
     .then(() => (open.value = false))
 </script>

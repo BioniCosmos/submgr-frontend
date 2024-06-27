@@ -14,12 +14,11 @@ import {
 } from '@/components/ui/drawer'
 import { Label } from '@/components/ui/label'
 import { Switch } from '@/components/ui/switch'
+import ky from '@/ky'
 import type { Profile } from '@/type/profile'
 import type { User } from '@/type/user'
-import { parseJson } from '@/utils'
 import { toTypedSchema } from '@vee-validate/zod'
 import { useMediaQuery } from '@vueuse/core'
-import ky from 'ky'
 import { Menu } from 'lucide-vue-next'
 import { VisuallyHidden } from 'radix-vue'
 import useSWRV from 'swrv'
@@ -72,13 +71,13 @@ const form = useForm({ validationSchema: toTypedSchema(schema) })
 
 const profiles = ref(Array.of<Profile>())
 onMounted(() => {
-  ky('/api/profiles')
+  ky('api/profiles')
     .json<Profile[]>()
     .then((value) => (profiles.value = value))
 })
 
-const { data: user, mutate } = useSWRV<User>(`/api/user/${id.value}`, (url) =>
-  ky(url, { parseJson }).json(),
+const { data: user, mutate } = useSWRV<User>(`api/user/${id.value}`, (url) =>
+  ky(url).json(),
 )
 watch(user, (user) => {
   if (user !== undefined) {
@@ -93,7 +92,7 @@ watch(user, (user) => {
 
 const deleteUser = () =>
   ky
-    .delete(`/api/user/${id.value}`)
+    .delete(`api/user/${id.value}`)
     .then(() => (dialogOpen.value = false))
     .then(() => router.replace('/users'))
 
@@ -105,7 +104,7 @@ function extend() {
   extending.value = true
   const { startDate, cycles } = user.value
   return ky
-    .put('/api/user', {
+    .put('api/user', {
       json: {
         id,
         cycles: cycles + 1,
@@ -124,7 +123,7 @@ function update(name: string, checked: boolean) {
   }
   updating.value = true
   return ky
-    .patch('/api/user', {
+    .patch('api/user', {
       json: { id, profileName: name, action: checked ? 'add' : 'remove' },
     })
     .then(() => mutate())

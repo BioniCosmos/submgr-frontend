@@ -17,9 +17,10 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
+import ky from '@/ky'
 import { useAccount, type Account } from '@/type/account'
 import type { DefaultResponse } from '@/type/default-response'
-import ky, { HTTPError } from 'ky'
+import type { HTTPError } from 'ky'
 import { AlertCircle } from 'lucide-vue-next'
 import type { GenericObject } from 'vee-validate'
 import { ref } from 'vue'
@@ -38,7 +39,7 @@ const errorMessage = ref('')
 const submit = (event: GenericObject) => {
   const account = useAccount()
   return ky
-    .post('/api/account/sign-in', { json: event })
+    .post('api/account/sign-in', { json: event })
     .json<Account>()
     .then((body) => {
       account.value = body

@@ -8,11 +8,11 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
+import ky from '@/ky'
 import { useAccount, type Account } from '@/type/account'
 import type { DefaultResponse } from '@/type/default-response'
-import { parseJson } from '@/utils'
 import { toTypedSchema } from '@vee-validate/zod'
-import ky, { HTTPError } from 'ky'
+import type { HTTPError } from 'ky'
 import { useForm, type GenericObject } from 'vee-validate'
 import { useRouter } from 'vue-router'
 import { z } from 'zod'
@@ -30,7 +30,7 @@ const form = useForm({ validationSchema: toTypedSchema(schema) })
 const submit = (event: GenericObject) => {
   const account = useAccount()
   return ky
-    .post('/api/account/sign-up', { json: event, parseJson })
+    .post('api/account/sign-up', { json: event })
     .json<Account>()
     .then((body) => {
       account.value = body

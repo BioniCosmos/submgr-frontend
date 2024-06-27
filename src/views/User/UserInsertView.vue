@@ -2,9 +2,9 @@
 import { AutoForm } from '@/components/ui/auto-form'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import ky from '@/ky'
 import type { Profile } from '@/type/profile'
 import { toTypedSchema } from '@vee-validate/zod'
-import ky from 'ky'
 import { useForm, type GenericObject } from 'vee-validate'
 import { computed, onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
@@ -27,7 +27,7 @@ const form = useForm({ validationSchema: toTypedSchema(schema) })
 
 const profiles = ref(Array.of<Profile>())
 onMounted(() => {
-  ky('/api/profiles')
+  ky('api/profiles')
     .json<Profile[]>()
     .then((value) => (profiles.value = value))
 })
@@ -54,7 +54,7 @@ function submit(event: GenericObject) {
   const nextDate = dateToZonedDateTime(date)
   const startDate = nextDate.subtract({ months: 1 })
   return ky
-    .post('/api/user', {
+    .post('api/user', {
       json: { ...fields, startDate, cycles: 1, nextDate },
     })
     .then(() => router.replace('/users'))

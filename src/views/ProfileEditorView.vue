@@ -3,7 +3,7 @@ import ConfigField from '@/components/ConfigField.vue'
 import { AutoForm } from '@/components/ui/auto-form'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import ky from 'ky'
+import ky from '@/ky'
 import type { GenericObject } from 'vee-validate'
 import { useRoute, useRouter } from 'vue-router'
 import { z } from 'zod'
@@ -19,7 +19,7 @@ const schema = z.object({
 
 const insert = (event: GenericObject) =>
   ky
-    .post('/api/profile', { json: { ...event, nodeId: route.query.nodeId } })
+    .post('api/profile', { json: { ...event, nodeId: route.query.nodeId } })
     .then(() => router.push('/nodes'))
 </script>
 

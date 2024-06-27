@@ -1,20 +1,20 @@
 <script setup lang="ts">
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
+import ky from '@/ky'
 import type { Node } from '@/type/node'
 import type { Pagination } from '@/type/pagination'
 import type { Profile } from '@/type/profile'
 import type { User } from '@/type/user'
-import ky from 'ky'
 import { onMounted, ref } from 'vue'
 
 const total = ref<{ node: number; profile: number; user: number }>()
 
 onMounted(() => {
   Promise.all([
-    ky('/api/nodes').json<Pagination<Node>>(),
-    ky('/api/profiles').json<Profile[]>(),
-    ky('/api/users').json<Pagination<User>>(),
+    ky('api/nodes').json<Pagination<Node>>(),
+    ky('api/profiles').json<Profile[]>(),
+    ky('api/users').json<Pagination<User>>(),
   ]).then(
     ([nodes, profiles, users]) =>
       (total.value = {
