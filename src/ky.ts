@@ -1,6 +1,6 @@
-import ky from 'ky'
+import _ky from 'ky'
 
-export default ky.create({
+const ky = _ky.create({
   prefixUrl: import.meta.env.VITE_SERVER_BASE_URL ?? '/',
   parseJson: (text) =>
     JSON.parse(text, (key, value) => {
@@ -13,3 +13,6 @@ export default ky.create({
       return value
     }),
 })
+
+export default ky
+export const fetcher = <T>(url: string) => ky(url, { retry: 0 }).json<T>()

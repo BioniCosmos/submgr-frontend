@@ -17,7 +17,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
-import ky from '@/ky'
+import { fetcher } from '@/ky'
 import type { Pagination } from '@/type/pagination'
 import type { User } from '@/type/user'
 import useSWRV from 'swrv'
@@ -26,7 +26,7 @@ import { ref } from 'vue'
 const page = ref(1)
 const { data: pagination } = useSWRV<Pagination<User>>(
   () => `api/users?page=${page.value}`,
-  (url) => ky(url).json(),
+  fetcher,
 )
 
 const isPaid = (user: User) =>

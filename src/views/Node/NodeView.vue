@@ -23,7 +23,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
-import ky from '@/ky'
+import ky, { fetcher } from '@/ky'
 import type { Node } from '@/type/node'
 import type { Pagination } from '@/type/pagination'
 import { ChevronsUpDown } from 'lucide-vue-next'
@@ -33,7 +33,7 @@ import { ref } from 'vue'
 const page = ref(1)
 const { data: pagination, mutate } = useSWRV<Pagination<Node>>(
   () => `api/nodes?page=${page.value}`,
-  (url) => ky(url).json(),
+  fetcher,
 )
 const open = ref(false)
 const profileName = ref('')

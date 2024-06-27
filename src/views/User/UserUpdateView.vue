@@ -14,7 +14,7 @@ import {
 } from '@/components/ui/drawer'
 import { Label } from '@/components/ui/label'
 import { Switch } from '@/components/ui/switch'
-import ky from '@/ky'
+import ky, { fetcher } from '@/ky'
 import type { Profile } from '@/type/profile'
 import type { User } from '@/type/user'
 import { toTypedSchema } from '@vee-validate/zod'
@@ -76,9 +76,7 @@ onMounted(() => {
     .then((value) => (profiles.value = value))
 })
 
-const { data: user, mutate } = useSWRV<User>(`api/user/${id.value}`, (url) =>
-  ky(url).json(),
-)
+const { data: user, mutate } = useSWRV<User>(`api/user/${id.value}`, fetcher)
 watch(user, (user) => {
   if (user !== undefined) {
     form.resetForm({
